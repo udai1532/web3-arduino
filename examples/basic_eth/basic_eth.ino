@@ -5,11 +5,15 @@
 
 #define ENV_SSID     "<YOUR_SSID>"
 #define ENV_WIFI_KEY "<YOUR_PASSWORD>"
-#define INFURA_HOST "rinkeby.infura.io"
-#define INFURA_PATH "/<YOUR_INFURA_ID>"
-#define ADDRESS "0x<YOUR_ETH_ADDRESS>"
+// #define INFURA_HOST "rinkeby.infura.io"
+// #define INFURA_PATH "/<YOUR_INFURA_ID>"
+// #define ADDRESS "0x<YOUR_ETH_ADDRESS>"
 
-Web3 web3(INFURA_HOST, INFURA_PATH);
+const string ADDRESS = "0x<YOUR_ETH_ADDRESS>";
+const string INFURA_HOST = "rinkeby.infura.io";
+const string INFURA_PATH = "/<YOUR_INFURA_ID>";
+
+Web3 web3(&INFURA_HOST, &INFURA_PATH);
 
 void eth_example();
 
@@ -79,14 +83,14 @@ void eth_example() {
     sprintf(tmp, "%d", blockNumber);
     USE_SERIAL.println(tmp);
 
-    string address = "0xd7049ea6f47ef848C0Ad570dbA618A9f6e4Eb25C";
-    long long int balance = web3.EthGetBalance(&address);
+    //string address = "0xd7049ea6f47ef848C0Ad570dbA618A9f6e4Eb25C";
+    long long int balance = web3.EthGetBalance(&ADDRESS);
     USE_SERIAL.println("eth_getBalance");
     memset(tmp, 0, 32);
     sprintf(tmp, "%lld", balance);
     USE_SERIAL.println(tmp);
 
-    int txcount = web3.EthGetTransactionCount(&address);
+    int txcount = web3.EthGetTransactionCount(&ADDRESS);
     USE_SERIAL.println("eth_getTransactionCount");
     memset(tmp, 0, 32);
     sprintf(tmp, "%d", txcount);
