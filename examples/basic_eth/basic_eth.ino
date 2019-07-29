@@ -3,24 +3,22 @@
 
 #define USE_SERIAL Serial
 
-#define ENV_SSID     "<YOUR_SSID>"
+#define ENV_SSID "<YOUR_SSID>"
 #define ENV_WIFI_KEY "<YOUR_PASSWORD>"
-// #define INFURA_HOST "rinkeby.infura.io"
-// #define INFURA_PATH "/<YOUR_INFURA_ID>"
-// #define ADDRESS "0x<YOUR_ETH_ADDRESS>"
+#define INFURA_HOST "rinkeby.infura.io"
+#define INFURA_PATH "/<YOUR_INFURA_ID>"
+#define ADDRESS "0x<YOUR_ETH_ADDRESS>"
 
-const string ADDRESS = "0x<YOUR_ETH_ADDRESS>";
-const string INFURA_HOST = "rinkeby.infura.io";
-const string INFURA_PATH = "/<YOUR_INFURA_ID>";
-
-Web3 web3(&INFURA_HOST, &INFURA_PATH);
+Web3 web3((string *)INFURA_HOST, (string *)INFURA_PATH);
 
 void eth_example();
 
-void setup() {
+void setup()
+{
     USE_SERIAL.begin(115200);
 
-    for(uint8_t t = 4; t > 0; t--) {
+    for (uint8_t t = 4; t > 0; t--)
+    {
         USE_SERIAL.printf("[SETUP] WAIT %d...\n", t);
         USE_SERIAL.flush();
         delay(1000);
@@ -29,7 +27,8 @@ void setup() {
     WiFi.begin(ENV_SSID, ENV_WIFI_KEY);
 
     // attempt to connect to Wifi network:
-    while (WiFi.status() != WL_CONNECTED) {
+    while (WiFi.status() != WL_CONNECTED)
+    {
         Serial.print(".");
         // wait 1 second for re-trying
         delay(1000);
@@ -40,11 +39,13 @@ void setup() {
     eth_example();
 }
 
-void loop() {
+void loop()
+{
     // put your main code here, to run repeatedly:
 }
 
-void eth_example() {
+void eth_example()
+{
     char tmp[32];
 
     double version = web3.EthProtocolVersion();
@@ -53,17 +54,23 @@ void eth_example() {
 
     bool listening = web3.EthSyncing();
     USE_SERIAL.println("eth_syncing");
-    if (listening) {
+    if (listening)
+    {
         USE_SERIAL.println("syncing");
-    } else{
+    }
+    else
+    {
         USE_SERIAL.println("not syncing");
     }
 
     bool mining = web3.EthMining();
     USE_SERIAL.println("eth_mining");
-    if (mining) {
+    if (mining)
+    {
         USE_SERIAL.println("mining");
-    } else{
+    }
+    else
+    {
         USE_SERIAL.println("not mining");
     }
 
@@ -83,14 +90,13 @@ void eth_example() {
     sprintf(tmp, "%d", blockNumber);
     USE_SERIAL.println(tmp);
 
-    //string address = "0xd7049ea6f47ef848C0Ad570dbA618A9f6e4Eb25C";
-    long long int balance = web3.EthGetBalance(&ADDRESS);
+    long long int balance = web3.EthGetBalance((string *)ADDRESS);
     USE_SERIAL.println("eth_getBalance");
     memset(tmp, 0, 32);
     sprintf(tmp, "%lld", balance);
     USE_SERIAL.println(tmp);
 
-    int txcount = web3.EthGetTransactionCount(&ADDRESS);
+    int txcount = web3.EthGetTransactionCount((string *)ADDRESS);
     USE_SERIAL.println("eth_getTransactionCount");
     memset(tmp, 0, 32);
     sprintf(tmp, "%d", txcount);
