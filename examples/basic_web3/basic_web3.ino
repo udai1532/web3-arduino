@@ -3,19 +3,21 @@
 
 #define USE_SERIAL Serial
 
-#define ENV_SSID     "<YOUR_SSID>"
+#define ENV_SSID "<YOUR_SSID>"
 #define ENV_WIFI_KEY "<YOUR_PASSWORD>"
 #define INFURA_HOST "rinkeby.infura.io"
 #define INFURA_PATH "/<YOUR_INFURA_ID>"
 
-Web3 web3(INFURA_HOST, INFURA_PATH);
+Web3 web3((string *)INFURA_HOST, (string *)INFURA_PATH);
 
 void web3_example();
 
-void setup() {
+void setup()
+{
     USE_SERIAL.begin(115200);
 
-    for(uint8_t t = 4; t > 0; t--) {
+    for (uint8_t t = 4; t > 0; t--)
+    {
         USE_SERIAL.printf("[SETUP] WAIT %d...\n", t);
         USE_SERIAL.flush();
         delay(1000);
@@ -24,7 +26,8 @@ void setup() {
     WiFi.begin(ENV_SSID, ENV_WIFI_KEY);
 
     // attempt to connect to Wifi network:
-    while (WiFi.status() != WL_CONNECTED) {
+    while (WiFi.status() != WL_CONNECTED)
+    {
         Serial.print(".");
         // wait 1 second for re-trying
         delay(1000);
@@ -35,11 +38,13 @@ void setup() {
     web3_example();
 }
 
-void loop() {
+void loop()
+{
     // put your main code here, to run repeatedly:
 }
 
-void web3_example() {
+void web3_example()
+{
     string result = web3.Web3ClientVersion();
     USE_SERIAL.println("web3_ClientVersion");
     USE_SERIAL.println(result.c_str());

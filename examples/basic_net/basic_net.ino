@@ -3,19 +3,21 @@
 
 #define USE_SERIAL Serial
 
-#define ENV_SSID     "<YOUR_SSID>"
+#define ENV_SSID "<YOUR_SSID>"
 #define ENV_WIFI_KEY "<YOUR_PASSWORD>"
 #define INFURA_HOST "rinkeby.infura.io"
 #define INFURA_PATH "/<YOUR_INFURA_ID>"
 
-Web3 web3(INFURA_HOST, INFURA_PATH);
+Web3 web3((string *)INFURA_HOST, (string *)INFURA_PATH);
 
 void net_example();
 
-void setup() {
+void setup()
+{
     USE_SERIAL.begin(115200);
 
-    for(uint8_t t = 4; t > 0; t--) {
+    for (uint8_t t = 4; t > 0; t--)
+    {
         USE_SERIAL.printf("[SETUP] WAIT %d...\n", t);
         USE_SERIAL.flush();
         delay(1000);
@@ -24,7 +26,8 @@ void setup() {
     WiFi.begin(ENV_SSID, ENV_WIFI_KEY);
 
     // attempt to connect to Wifi network:
-    while (WiFi.status() != WL_CONNECTED) {
+    while (WiFi.status() != WL_CONNECTED)
+    {
         Serial.print(".");
         // wait 1 second for re-trying
         delay(1000);
@@ -35,20 +38,25 @@ void setup() {
     net_example();
 }
 
-void loop() {
-  // put your main code here, to run repeatedly:
+void loop()
+{
+    // put your main code here, to run repeatedly:
 }
 
-void net_example() {
+void net_example()
+{
     int version = web3.NetVersion();
     USE_SERIAL.println("net_version");
     USE_SERIAL.println(version); // 4
 
     bool listening = web3.NetListening();
     USE_SERIAL.println("net_listening");
-    if (listening) {
+    if (listening)
+    {
         USE_SERIAL.println("listening");
-    } else{
+    }
+    else
+    {
         USE_SERIAL.println("not listening");
     }
 
@@ -56,4 +64,3 @@ void net_example() {
     USE_SERIAL.println("net_peerCount");
     USE_SERIAL.println(peerCount);
 }
-
